@@ -25,6 +25,8 @@ Example JSON message
 import os
 import pathlib
 import sqlite3
+from pathlib import Path
+
 
 # import from local modules
 import utils.utils_config as config
@@ -149,13 +151,14 @@ def delete_message(message_id: int, db_path: pathlib.Path) -> None:
 def main():
     logger.info("Starting db testing.")
 
-    # Use config to make a path to a parallel test database
-    DATA_PATH: pathlib.path = config.get_base_data_path
+    # Call function instead of assigning function reference
+    DATA_PATH: pathlib.Path = config.get_base_data_path()  # ✅ FIXED
     TEST_DB_PATH: pathlib.Path = DATA_PATH / "test_buzz.sqlite"
 
-    # Initialize the SQLite database by passing in the path
+    # Initialize the SQLite database
     init_db(TEST_DB_PATH)
     logger.info(f"Initialized database file at {TEST_DB_PATH}.")
+
 
     test_message = {
         "message": "I just shared a meme! It was amazing.",
